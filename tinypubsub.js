@@ -1,20 +1,20 @@
-;window.tpsChannel = function(options) {
+function tpsChannel(options) {
 
-	this.options = options;
+	this.options = options || {};
 
 	this.channel = this.options.channel || [];
 	this.subscribers = this.options.subscribers || [];
 	this.subscriberTimeout = this.options.subscriberTimeout || 0;
 
 	this.psTimeout = null;
-	
+
 	this.init();
 };
 
-tpsChannel.prototype = function() {
+tpsChannel.prototype = {
 
 	init: function() {
-		if(this.channel.length>0){
+		if(this.channel.length > 0){
 			this.callSubscribers();
 		}
 	},
@@ -26,36 +26,39 @@ tpsChannel.prototype = function() {
 	},
 
 	unsubscribe: function(callback) {
-		this.subscribers.splice(this.subscribers.indexOf('specific'), 1);
+		this.subscribers.splice(this.subscribers.indexOf(callback), 1);
 	},
 
 	update : function(objs) {
 		this.channel = objs;
+		this.callSubscribers();
 	},
 
 	push: function(obj) {
-		/*
-		if(flush==true){
-			this._callSubscribers(this.subscribers);
-		}*/
 		this.channel.push(obj);
 		this.callSubscribers();
 	},
 
+	resetChannel: function(){
+		this.channel = [];
+	},
+
 	callSubscribers : function() {
-		if (this.psTimeout!=null){
+		if (this.psTimeout != null){
 			clearTimeout(this.psTimeout);
 		}
-		this.psTimeout = setTimeout(function(){
-			this._callSubscribers(this.subscribers);
+		var accessor = this;
+		this.psTimeout = setTimeout(function() {
+			accessor._callSubscribers(accessor.subscribers);
 		}, this.subscriberTimeout);
-	}
+	},
 
 	_callSubscribers : function(subscribers) {
 		var index = subscribers.length;
-		while(index--){
+		while(index--) {
 			subscribers[index](this.channel);
 		}
+		this.resetChannel();
 	},
 
 };
