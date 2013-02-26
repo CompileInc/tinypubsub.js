@@ -3,7 +3,7 @@
 A miniature pubsub module with buffered callbacks.
 
 ##Usage
-JAVASCRIPT
+Initializing the channel
 ```javascript
 var options = {
     'channel' : [1,2,3], //optional, default : []
@@ -14,6 +14,7 @@ var options = {
 var tps = new tpsChannel();
 ```
 
+Using and updating the channel
 ```javascript
 //adding subscribers
 function callback(channel){
