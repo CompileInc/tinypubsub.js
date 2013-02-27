@@ -31,3 +31,5 @@ tps.push(element);
 //update batch elements
 tps.push([4,5,6]);
 ```
+##TODO
+1. Sync b/w multiple instances via localStorage/globalStorage
