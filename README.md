@@ -11,7 +11,7 @@ var options = {
     'subscriberTimeout': 'timeout in milli seconds' //optional, default: 0
 };
 
-var tps = new tpsChannel();
+var tps = new tpsChannel(options);
 ```
 
 Using and updating the channel
